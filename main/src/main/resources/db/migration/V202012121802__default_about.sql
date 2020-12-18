@@ -1,0 +1,1 @@
+ALTER TABLE public.users ALTER COLUMN about SET DEFAULT '';
