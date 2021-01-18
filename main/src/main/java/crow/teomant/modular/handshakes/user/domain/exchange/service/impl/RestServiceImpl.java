@@ -1,12 +1,12 @@
-package crow.teomant.modular.handshakes.user.domain.rest.service.impl;
+package crow.teomant.modular.handshakes.user.domain.exchange.service.impl;
 
 import crow.teomant.modular.handshakes.user.domain.model.Path;
 import crow.teomant.modular.handshakes.user.domain.model.Relation;
 import crow.teomant.modular.handshakes.user.domain.model.User;
 import crow.teomant.modular.handshakes.user.domain.repository.UserRepository;
-import crow.teomant.modular.handshakes.user.domain.rest.model.RelationRest;
-import crow.teomant.modular.handshakes.user.domain.rest.model.UserRest;
-import crow.teomant.modular.handshakes.user.domain.rest.service.RestService;
+import crow.teomant.modular.handshakes.user.domain.exchange.model.RelationExchange;
+import crow.teomant.modular.handshakes.user.domain.exchange.model.UserExchange;
+import crow.teomant.modular.handshakes.user.domain.exchange.service.RestService;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -39,11 +39,11 @@ public class RestServiceImpl implements RestService {
         RestTemplate restTemplate = new RestTemplate();
         String addUrl = "http://localhost:8081/add-user";
 
-        UserRest userRest = new UserRest();
+        UserExchange userRest = new UserExchange();
         userRest.setUserId(user.getId());
 
-        HttpEntity<UserRest> request = new HttpEntity<>(userRest);
-        UserRest response = restTemplate.postForObject(addUrl, request, UserRest.class);
+        HttpEntity<UserExchange> request = new HttpEntity<>(userRest);
+        UserExchange response = restTemplate.postForObject(addUrl, request, UserExchange.class);
     }
 
     @Override
@@ -56,10 +56,10 @@ public class RestServiceImpl implements RestService {
             .queryParam("to", relation.getUser().getId())
             .queryParam("relationType", relation.getRelationType());
 
-        RelationRest response = restTemplate.postForObject(
+        RelationExchange response = restTemplate.postForObject(
             builder.build().toUriString(),
             null,
-            RelationRest.class
+            RelationExchange.class
         );
     }
 
@@ -75,7 +75,7 @@ public class RestServiceImpl implements RestService {
         return Arrays.asList(
             restTemplate.getForObject(
                 builder.build().toUriString(),
-                RelationRest[].class
+                RelationExchange[].class
             )
         )
             .stream()

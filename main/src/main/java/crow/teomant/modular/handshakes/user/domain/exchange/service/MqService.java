@@ -1,11 +1,9 @@
-package crow.teomant.modular.handshakes.user.domain.rest.service;
+package crow.teomant.modular.handshakes.user.domain.exchange.service;
 
-import crow.teomant.modular.handshakes.user.domain.model.Path;
 import crow.teomant.modular.handshakes.user.domain.model.Relation;
 import crow.teomant.modular.handshakes.user.domain.model.User;
-import java.util.List;
 
-public interface RestService {
+public interface MqService {
 
     void rebuildGraph();
 
@@ -13,6 +11,7 @@ public interface RestService {
 
     void addRelation(User from, Relation relation);
 
-    List<Path> getPath(Long from, Long to);
+    void getPath(Long from, Long to, Long responseTo);
 
+    void registerListener(MqListener listener);
 }

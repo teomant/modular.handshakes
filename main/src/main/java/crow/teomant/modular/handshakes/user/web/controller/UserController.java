@@ -3,7 +3,7 @@ package crow.teomant.modular.handshakes.user.web.controller;
 import crow.teomant.modular.handshakes.user.domain.model.RelationType;
 import crow.teomant.modular.handshakes.user.domain.model.User;
 import crow.teomant.modular.handshakes.user.domain.model.UserCriteria;
-import crow.teomant.modular.handshakes.user.domain.rest.service.RestService;
+import crow.teomant.modular.handshakes.user.domain.exchange.service.RestService;
 import crow.teomant.modular.handshakes.user.domain.service.UserService;
 import crow.teomant.modular.handshakes.user.web.dto.PathDto;
 import crow.teomant.modular.handshakes.user.web.dto.UserDto;

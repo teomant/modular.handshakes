@@ -3,9 +3,10 @@ package crow.teomant.modular.handshakes.bot.commands.impl;
 import crow.teomant.modular.handshakes.bot.commands.BotState;
 import crow.teomant.modular.handshakes.bot.commands.Command;
 import crow.teomant.modular.handshakes.bot.utils.CommandUtils;
+import crow.teomant.modular.handshakes.user.domain.exchange.service.MqService;
 import crow.teomant.modular.handshakes.user.domain.model.Path;
 import crow.teomant.modular.handshakes.user.domain.model.User;
-import crow.teomant.modular.handshakes.user.domain.rest.service.RestService;
+import crow.teomant.modular.handshakes.user.domain.exchange.service.RestService;
 import crow.teomant.modular.handshakes.user.domain.service.UserService;
 import java.util.HashMap;
 import java.util.List;
@@ -18,7 +19,7 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 public class FindCommand implements Command {
 
     private final UserService userService;
-    private final RestService restService;
+    private final MqService mqService;
     private final BotState botState;
 
     @Override
@@ -44,20 +45,24 @@ public class FindCommand implements Command {
             User currentuser = userService.findByTelegramId(message.getFrom().getId())
                 .orElseThrow(IllegalStateException::new);
 
-            List<Path> path = restService.getPath(currentuser.getId(), existing.get(0).getId());
+//            List<Path> path = restService.getPath(currentuser.getId(), existing.get(0).getId());
+//
+//            StringBuilder builder = new StringBuilder("Путь до пользователя " + existing.get(0).getFio() + ":\n");
+//
+//            if (path.isEmpty()) {
+//                return new SendMessage(message.getChatId().toString(), builder.append("не найден").toString());
+//            }
+//
+//            path.forEach(part ->
+//                builder.append(part.getFrom().getFio()).append("\n").append(part.getRelation().getValue()).append("\n")
+//            );
+//            builder.append(path.get(path.size() - 1).getTo().getFio());
+//
+//            return new SendMessage(message.getChatId().toString(), builder.toString());
 
-            StringBuilder builder = new StringBuilder("Путь до пользователя " + existing.get(0).getFio() + ":\n");
+            mqService.getPath(currentuser.getId(), existing.get(0).getId(), message.getChatId());
 
-            if (path.isEmpty()) {
-                return new SendMessage(message.getChatId().toString(), builder.append("не найден").toString());
-            }
-
-            path.forEach(part ->
-                builder.append(part.getFrom().getFio()).append("\n").append(part.getRelation().getValue()).append("\n")
-            );
-            builder.append(path.get(path.size() - 1).getTo().getFio());
-
-            return new SendMessage(message.getChatId().toString(), builder.toString());
+            return new SendMessage(message.getChatId().toString(), "Путь ищется, подождите...");
         } else {
             HashMap<Integer, User> options = CommandUtils.getOptions(existing);
 

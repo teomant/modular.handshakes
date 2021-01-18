@@ -14,7 +14,8 @@ import crow.teomant.modular.handshakes.bot.commands.impl.InfoCommand;
 import crow.teomant.modular.handshakes.bot.commands.impl.RegisterCommand;
 import crow.teomant.modular.handshakes.bot.commands.impl.StartCommand;
 import crow.teomant.modular.handshakes.bot.commands.impl.UnknownCommand;
-import crow.teomant.modular.handshakes.user.domain.rest.service.RestService;
+import crow.teomant.modular.handshakes.user.domain.exchange.service.MqService;
+import crow.teomant.modular.handshakes.user.domain.exchange.service.RestService;
 import crow.teomant.modular.handshakes.user.domain.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.telegram.telegrambots.meta.api.objects.Message;
@@ -24,6 +25,7 @@ public class HandshakeBotCommandFactory {
 
     private final UserService userService;
     private final RestService restService;
+    private final MqService mqService;
 
     private final BotState botState = new BotState();
 
@@ -38,7 +40,7 @@ public class HandshakeBotCommandFactory {
             return new ConfirmAddMemberCommand(userService, botState);
         }
         if (botState.isFindInProcess(message)) {
-            return new ConfirmFindCommand(userService, restService, botState);
+            return new ConfirmFindCommand(userService, mqService, botState);
         }
         if (botState.getRelationCommandState().isChoosingFrom(message)) {
             return new ChooseFromCommand(userService, botState.getRelationCommandState());
@@ -62,7 +64,7 @@ public class HandshakeBotCommandFactory {
             return new InfoCommand(userService);
         }
         if (message.getText().startsWith("/find")) {
-            return new FindCommand(userService, restService, botState);
+            return new FindCommand(userService, mqService, botState);
         }
         if (message.getText().startsWith("/start")
             || !userService.findByTelegramId(message.getFrom().getId()).isPresent()) {
