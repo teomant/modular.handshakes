@@ -1,7 +1,7 @@
 package crow.teomant.modular.handshakes.user.web.controller;
 
+import crow.teomant.modular.handshakes.common.relation.RelationType;
 import crow.teomant.modular.handshakes.user.persistance.model.RelationRelationship;
-import crow.teomant.modular.handshakes.user.persistance.model.RelationType;
 import crow.teomant.modular.handshakes.user.persistance.model.UserNode;
 import crow.teomant.modular.handshakes.user.persistance.repository.RelationRelationshipRepository;
 import crow.teomant.modular.handshakes.user.persistance.repository.UserNodeRepository;

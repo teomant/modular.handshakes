@@ -1,7 +1,9 @@
-package crow.teomant.modular.handshakes.user.domain.model;
+package crow.teomant.modular.handshakes.common.relation;
 
+import java.util.Arrays;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import org.neo4j.ogm.typeconversion.AttributeConverter;
 
 @AllArgsConstructor
 @Getter

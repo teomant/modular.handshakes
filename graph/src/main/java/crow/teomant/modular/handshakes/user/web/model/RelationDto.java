@@ -1,6 +1,6 @@
 package crow.teomant.modular.handshakes.user.web.model;
 
-import crow.teomant.modular.handshakes.user.persistance.model.RelationType;
+import crow.teomant.modular.handshakes.common.relation.RelationType;
 import lombok.Data;
 
 @Data

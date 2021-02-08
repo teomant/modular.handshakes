@@ -1,6 +1,6 @@
 package crow.teomant.modular.handshakes.user.web.controller;
 
-import crow.teomant.modular.handshakes.user.domain.model.RelationType;
+import crow.teomant.modular.handshakes.common.relation.RelationType;
 import crow.teomant.modular.handshakes.user.domain.model.User;
 import crow.teomant.modular.handshakes.user.domain.model.UserCriteria;
 import crow.teomant.modular.handshakes.user.domain.exchange.service.RestService;

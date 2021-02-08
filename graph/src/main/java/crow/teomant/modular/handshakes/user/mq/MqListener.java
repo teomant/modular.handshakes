@@ -1,11 +1,14 @@
 package crow.teomant.modular.handshakes.user.mq;
 
-import crow.teomant.modular.handshakes.user.mq.model.PathExchange;
-import crow.teomant.modular.handshakes.user.mq.model.PathResponseExchange;
-import crow.teomant.modular.handshakes.user.mq.model.RelationExchange;
-import crow.teomant.modular.handshakes.user.mq.model.UserExchange;
+import crow.teomant.modular.handshakes.common.exchange.ExchangeDto;
+import crow.teomant.modular.handshakes.common.exchange.ExchangeType;
+import crow.teomant.modular.handshakes.common.exchange.PathExchange;
+import crow.teomant.modular.handshakes.common.exchange.PathResponseExchange;
+import crow.teomant.modular.handshakes.common.exchange.RebuildExchange;
+import crow.teomant.modular.handshakes.common.exchange.RelationExchange;
+import crow.teomant.modular.handshakes.common.exchange.UserExchange;
+import crow.teomant.modular.handshakes.common.relation.RelationType;
 import crow.teomant.modular.handshakes.user.persistance.model.RelationRelationship;
-import crow.teomant.modular.handshakes.user.persistance.model.RelationType;
 import crow.teomant.modular.handshakes.user.persistance.model.UserNode;
 import crow.teomant.modular.handshakes.user.persistance.repository.RelationRelationshipRepository;
 import crow.teomant.modular.handshakes.user.persistance.repository.UserNodeRepository;
@@ -27,16 +30,31 @@ public class MqListener {
     @Value("#{${distances}}")
     private Map<RelationType, Long> distances;
 
-    @RabbitListener(queues = "add_user")
-    public void addUserListener(UserExchange userExchange) {
+    @RabbitListener(queues = "to_graph")
+    public void process(ExchangeDto exchangeDto) {
+        if (exchangeDto.getType().equals(ExchangeType.USER)) {
+            addUser((UserExchange) exchangeDto);
+        }
+        if (exchangeDto.getType().equals(ExchangeType.RELATION)) {
+            addRelation((RelationExchange) exchangeDto);
+        }
+        if (exchangeDto.getType().equals(ExchangeType.PATH)) {
+            path((PathExchange) exchangeDto);
+        }
+        if (exchangeDto.getType().equals(ExchangeType.REBUILD)) {
+            rebuild((RebuildExchange) exchangeDto);
+        }
+    }
+
+
+    public void addUser(UserExchange userExchange) {
 
         UserNode userNode = new UserNode();
         userNode.setUserId(userExchange.getUserId());
         userNodeRepository.save(userNode);
     }
 
-    @RabbitListener(queues = "add_relation")
-    public void addRelationListener(RelationExchange relationExchange) {
+    public void addRelation(RelationExchange relationExchange) {
 
         UserNode personFrom = userNodeRepository.findByUserId(relationExchange.getPersonFrom())
             .orElseThrow(IllegalArgumentException::new);
@@ -61,8 +79,7 @@ public class MqListener {
         relationRelationshipRepository.save(relationRelationship);
     }
 
-    @RabbitListener(queues = "get_path")
-    public void pathListener(PathExchange pathExchange) {
+    public void path(PathExchange pathExchange) {
 
         PathResponseExchange pathResponseExchange = new PathResponseExchange();
         pathResponseExchange.setResponseTo(pathExchange.getResponseTo());
@@ -74,14 +91,10 @@ public class MqListener {
                         relation.getPersonTo().getUserId()));
             }));
 
-        rabbitTemplate.convertAndSend("path_response", pathResponseExchange);
+        rabbitTemplate.convertAndSend("to_main", pathResponseExchange);
     }
 
-    @RabbitListener(queues = "rebuild")
-    public void rebuildListener(String message) {
-
-        if (message.equals("rebuild")) {
-            userNodeRepository.deleteAll();
-        }
+    public void rebuild(RebuildExchange exchange) {
+        userNodeRepository.deleteAll();
     }
 }

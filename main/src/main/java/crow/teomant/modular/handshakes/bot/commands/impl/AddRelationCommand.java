@@ -3,7 +3,7 @@ package crow.teomant.modular.handshakes.bot.commands.impl;
 import crow.teomant.modular.handshakes.bot.commands.BotState;
 import crow.teomant.modular.handshakes.bot.commands.Command;
 import crow.teomant.modular.handshakes.bot.utils.CommandUtils;
-import crow.teomant.modular.handshakes.user.domain.model.RelationType;
+import crow.teomant.modular.handshakes.common.relation.RelationType;
 import crow.teomant.modular.handshakes.user.domain.model.User;
 import crow.teomant.modular.handshakes.user.domain.service.UserService;
 import java.util.Arrays;

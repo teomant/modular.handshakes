@@ -1,11 +1,11 @@
 package crow.teomant.modular.handshakes.user.domain.exchange.service.impl;
 
+import crow.teomant.modular.handshakes.common.exchange.RelationExchange;
+import crow.teomant.modular.handshakes.common.exchange.UserExchange;
 import crow.teomant.modular.handshakes.user.domain.model.Path;
 import crow.teomant.modular.handshakes.user.domain.model.Relation;
 import crow.teomant.modular.handshakes.user.domain.model.User;
 import crow.teomant.modular.handshakes.user.domain.repository.UserRepository;
-import crow.teomant.modular.handshakes.user.domain.exchange.model.RelationExchange;
-import crow.teomant.modular.handshakes.user.domain.exchange.model.UserExchange;
 import crow.teomant.modular.handshakes.user.domain.exchange.service.RestService;
 import java.util.Arrays;
 import java.util.List;

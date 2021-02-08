@@ -1,8 +1,8 @@
 package crow.teomant.modular.handshakes.bot;
 
 import crow.teomant.modular.handshakes.bot.commands.HandshakeBotCommandFactory;
-import crow.teomant.modular.handshakes.user.domain.exchange.model.PathResponseExchange;
-import crow.teomant.modular.handshakes.user.domain.exchange.model.RelationExchange;
+import crow.teomant.modular.handshakes.common.exchange.PathResponseExchange;
+import crow.teomant.modular.handshakes.common.exchange.RelationExchange;
 import crow.teomant.modular.handshakes.user.domain.exchange.service.MqListener;
 import crow.teomant.modular.handshakes.user.domain.exchange.service.MqService;
 import crow.teomant.modular.handshakes.user.domain.service.UserService;

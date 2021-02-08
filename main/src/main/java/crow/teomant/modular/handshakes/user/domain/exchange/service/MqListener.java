@@ -1,6 +1,6 @@
 package crow.teomant.modular.handshakes.user.domain.exchange.service;
 
-import crow.teomant.modular.handshakes.user.domain.exchange.model.PathResponseExchange;
+import crow.teomant.modular.handshakes.common.exchange.PathResponseExchange;
 
 public interface MqListener {
 

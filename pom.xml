@@ -5,6 +5,7 @@
 	<modules>
 		<module>main</module>
 		<module>graph</module>
+        <module>lib</module>
     </modules>
 	<parent>
 		<groupId>org.springframework.boot</groupId>

@@ -1,9 +1,10 @@
 package crow.teomant.modular.handshakes.user.domain.exchange.service.impl;
 
-import crow.teomant.modular.handshakes.user.domain.exchange.model.PathExchange;
-import crow.teomant.modular.handshakes.user.domain.exchange.model.PathResponseExchange;
-import crow.teomant.modular.handshakes.user.domain.exchange.model.RelationExchange;
-import crow.teomant.modular.handshakes.user.domain.exchange.model.UserExchange;
+import crow.teomant.modular.handshakes.common.exchange.PathExchange;
+import crow.teomant.modular.handshakes.common.exchange.PathResponseExchange;
+import crow.teomant.modular.handshakes.common.exchange.RebuildExchange;
+import crow.teomant.modular.handshakes.common.exchange.RelationExchange;
+import crow.teomant.modular.handshakes.common.exchange.UserExchange;
 import crow.teomant.modular.handshakes.user.domain.exchange.service.MqListener;
 import crow.teomant.modular.handshakes.user.domain.exchange.service.MqService;
 import crow.teomant.modular.handshakes.user.domain.model.Relation;
@@ -27,7 +28,7 @@ public class MqServiceImpl implements MqService {
 
     @Override
     public void rebuildGraph() {
-        rabbitTemplate.convertAndSend("rebuild", "rebuild");
+        rabbitTemplate.convertAndSend("to_graph", new RebuildExchange());
 
         List<User> users = userRepository.findAll();
         users.forEach(this::addNode);
@@ -39,7 +40,7 @@ public class MqServiceImpl implements MqService {
         UserExchange userExchange = new UserExchange();
         userExchange.setUserId(user.getId());
 
-        rabbitTemplate.convertAndSend("add_user", userExchange);
+        rabbitTemplate.convertAndSend("to_graph", userExchange);
     }
 
     @Override
@@ -49,13 +50,13 @@ public class MqServiceImpl implements MqService {
         relationExchange.setPersonTo(relation.getUser().getId());
         relationExchange.setRelationType(relation.getRelationType());
 
-        rabbitTemplate.convertAndSend("add_relation", relationExchange);
+        rabbitTemplate.convertAndSend("to_graph", relationExchange);
     }
 
     @Override
     public void getPath(Long from, Long to, Long responseTo) {
 
-        rabbitTemplate.convertAndSend("get_path", new PathExchange(from, to, responseTo));
+        rabbitTemplate.convertAndSend("to_graph", new PathExchange(from, to, responseTo));
     }
 
     @Override
@@ -63,7 +64,7 @@ public class MqServiceImpl implements MqService {
         listeners.add(listener);
     }
 
-    @RabbitListener(queues = "path_response")
+    @RabbitListener(queues = "to_main")
     public void pathListener(PathResponseExchange pathResponseExchange) {
         listeners.forEach(listener -> listener.processPath(pathResponseExchange));
     }

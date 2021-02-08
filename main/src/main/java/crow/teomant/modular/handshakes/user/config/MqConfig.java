@@ -15,27 +15,12 @@ public class MqConfig {
 
     @Bean
     public Queue addUser() {
-        return new Queue("add_user", false);
+        return new Queue("to_graph", false);
     }
 
     @Bean
     public Queue addRelation() {
-        return new Queue("add_relation", false);
-    }
-
-    @Bean
-    public Queue getPath() {
-        return new Queue("get_path", false);
-    }
-
-    @Bean
-    public Queue pathResponse() {
-        return new Queue("path_response", false);
-    }
-
-    @Bean
-    public Queue rebuild() {
-        return new Queue("rebuild", false);
+        return new Queue("to_main", false);
     }
 
     @Bean

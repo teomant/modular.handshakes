@@ -1,6 +1,6 @@
 package crow.teomant.modular.handshakes.user.persistance.model;
 
-import crow.teomant.modular.handshakes.user.domain.model.RelationType;
+import crow.teomant.modular.handshakes.common.relation.RelationType;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.EnumType;

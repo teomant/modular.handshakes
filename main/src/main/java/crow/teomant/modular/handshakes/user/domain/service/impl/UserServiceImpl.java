@@ -1,8 +1,8 @@
 package crow.teomant.modular.handshakes.user.domain.service.impl;
 
+import crow.teomant.modular.handshakes.common.relation.RelationType;
 import crow.teomant.modular.handshakes.user.domain.exchange.service.MqService;
 import crow.teomant.modular.handshakes.user.domain.model.Relation;
-import crow.teomant.modular.handshakes.user.domain.model.RelationType;
 import crow.teomant.modular.handshakes.user.domain.model.User;
 import crow.teomant.modular.handshakes.user.domain.model.UserCriteria;
 import crow.teomant.modular.handshakes.user.domain.repository.UserRepository;
