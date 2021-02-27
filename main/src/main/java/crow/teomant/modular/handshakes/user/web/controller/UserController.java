@@ -1,6 +1,7 @@
 package crow.teomant.modular.handshakes.user.web.controller;
 
 import crow.teomant.modular.handshakes.common.relation.RelationType;
+import crow.teomant.modular.handshakes.user.domain.exchange.service.MqService;
 import crow.teomant.modular.handshakes.user.domain.model.User;
 import crow.teomant.modular.handshakes.user.domain.model.UserCriteria;
 import crow.teomant.modular.handshakes.user.domain.exchange.service.RestService;
@@ -24,6 +25,7 @@ public class UserController {
 
     private final UserService userService;
     private final RestService restService;
+    private final MqService mqService;
     private final UserDtoMapper dtoMapper = new UserDtoMapper();
 
     @PostMapping("/user/add")
@@ -52,7 +54,7 @@ public class UserController {
 
     @PostMapping("/user/rebuild-graph")
     public void rebuildGraph() {
-        restService.rebuildGraph();
+        mqService.rebuildGraph();
     }
 
     @GetMapping("/user/{from}/get-path")

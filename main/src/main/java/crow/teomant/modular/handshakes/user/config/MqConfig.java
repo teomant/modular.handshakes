@@ -14,13 +14,13 @@ import org.springframework.context.annotation.Configuration;
 public class MqConfig {
 
     @Bean
-    public Queue addUser() {
-        return new Queue("to_graph", false);
+    public Queue toGraph() {
+        return new Queue("to_graph", true, false, true);
     }
 
     @Bean
-    public Queue addRelation() {
-        return new Queue("to_main", false);
+    public Queue toMain() {
+        return new Queue("to_main",  true, false, true);
     }
 
     @Bean

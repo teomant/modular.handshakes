@@ -1,0 +1,57 @@
+version: "3"
+services:
+  handshake_main_docker:
+    image: handshake_main
+    container_name: handshake_main_docker
+    ports:
+      - "8080:8080"
+    networks:
+      - handshake_network
+    depends_on:
+      - handshake_docker
+      - handshake_rabbit_docker
+
+  handshake_graph_docker:
+    image: handshake_graph
+    container_name: handshake_graph_docker
+    ports:
+      - "8081:8081"
+    networks:
+      - handshake_network
+    depends_on:
+      - handshake-node-docker
+      - handshake_rabbit_docker
+
+  handshake_docker:
+    image: postgres
+    container_name: handshake_docker
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: postgres
+    networks:
+      - handshake_network
+
+  handshake-node-docker:
+    image: neo4j
+    container_name: handshake-node-docker
+    ports:
+      - "7474:7474"
+      - "7687:7687"
+    environment:
+      NEO4J_AUTH: neo4j/handshake
+    networks:
+      - handshake_network
+
+  handshake_rabbit_docker:
+    image: rabbitmq:3-management
+    container_name: handshake_rabbit_docker
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - handshake_network
+
+
+networks:
+  handshake_network:

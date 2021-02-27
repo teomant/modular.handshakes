@@ -20,6 +20,7 @@
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
+        <spring-boot.repackage.skip>true</spring-boot.repackage.skip>
     </properties>
 
 </project>

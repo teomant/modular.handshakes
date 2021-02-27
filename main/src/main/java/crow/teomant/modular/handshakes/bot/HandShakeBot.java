@@ -78,6 +78,7 @@ public class HandShakeBot extends TelegramLongPollingBot implements MqListener {
         List<RelationExchange> path = response.getPath();
         if (path.isEmpty()) {
             sendMsg(new SendMessage(response.getResponseTo().toString(), builder.append("не найден").toString()));
+            return;
         }
 
         path.forEach(part ->
